@@ -1,4 +1,4 @@
-# Developing a Neural Network Classification Model
+![image](https://github.com/manojvenaram/nn-classification/assets/94165064/6e976b9b-13e7-4266-ace9-deb5cb24dd9a)# Developing a Neural Network Classification Model
 
 ## AIM
 
@@ -26,9 +26,143 @@ Include the neural network model diagram.
 Write your own steps
 
 ## PROGRAM
+```
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import load_model
+import pickle
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dropout
+from tensorflow.keras.layers import BatchNormalization
+import tensorflow as tf
+import seaborn as sns
+from tensorflow.keras.callbacks import EarlyStopping
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OrdinalEncoder
+from sklearn.metrics import classification_report,confusion_matrix
+import numpy as np
+import matplotlib.pylab as plt
+```
+```
+data=pd.read_csv("customers.csv")
+data
+```
+```
+data.columns
+data.dtypes
+data.shape
+```
+```
+data.isnull().sum()
+```
+```
+data=data.dropna(axis=0)
+```
+```
+data.shape
+```
+```
+data.dtypes
+```
+```
+for column in data.columns:
+    column_names.append(column)
+    unique_values = data[column].dropna().unique()  # Drop NaN values
+    unique_values_list.append(unique_values.tolist())
+```
+```
+from sklearn.preprocessing import OrdinalEncoder
+categories_list=[['Male', 'Female'],['No', 'Yes'],['No', 'Yes'],['Healthcare', 'Engineer', 'Lawyer', 'Artist', 'Doctor',
+       'Homemaker', 'Entertainment', 'Marketing', 'Executive'],['Low', 'High', 'Average']]
+enc=OrdinalEncoder(categories=categories_list)
+```
+```
+data1=data.copy()
+```
+```
+data1[['Gender','Ever_Married','Graduated','Profession','Spending_Score']]=enc.fit_transform(data1[['Gender','Ever_Married','Graduated','Profession','Spending_Score']])
+data1
+data1.dtypes
+```
+```
+from sklearn.preprocessing import LabelEncoder
+le=LabelEncoder()
+data1['Segmentation']=le.fit_transform(data1['Segmentation'])
+data1
+```
+```
+data1=data1.drop('ID',axis=1)
+data1=data1.drop('Var_1',axis=1)
+data1
+```
+```
+data1.dtypes
+```
+```
+X=data1.iloc[:,:-1].values
+y1=data1.iloc[:,-1].values.reshape(-1,1)
+X.shape
+```
+```
+from sklearn.preprocessing import OneHotEncoder
+onehot=OneHotEncoder()
+onehot.fit(y1)
+y=onehot.transform(y1).toarray()
+```
+ ```
+from sklearn.model_selection import train_test_split
+xtrain,xtest,ytrain,ytest=train_test_split(X,y,test_size=0.33,random_state=50)
+```
+```
+from sklearn.preprocessing import MinMaxScaler
+scaler=MinMaxScaler()
+scaler.fit(xtrain[:,2].reshape(-1,1))
+xtrain_scaled=np.copy(xtrain)
+xtest_scaled=np.copy(xtest)
+xtrain_scaled[:,2]=scaler.transform(xtrain[:,2].reshape(-1,1)).reshape(-1)
+xtest_scaled[:,2]=scaler.transform(xtest[:,2].reshape(-1,1)).reshape(-1)
 
-Include your code here
+```
+```
+ai_brain=Sequential([
+    Dense(512,input_shape=(8,)),
+    Dense(512,activation='relu'),
+    Dense(4,activation='softmax')
+])
+```
+```
+ai_brain.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
+```
+```
+early_stop=EarlyStopping(monitor='val_loss',patience=2)
+```
+```
+ai_brain.fit(x=xtrain_scaled,y=ytrain,epochs=800,batch_size=256,validation_data=(xtest_scaled,ytest),)
+```
+metrics = pd.DataFrame(ai_brain.history.history)
+metrics[['loss','val_loss']].plot()
+```
+x_test_predictions = np.argmax(ai_brain.predict(xtest_scaled), axis=1)
+x_test_predictions
+```
+```
+print(confusion_matrix(y_test_truevalue,x_test_predictions))
+```
+```
+print(classification_report(y_test_truevalue,x_test_predictions))
+```
+```
+x_single_prediction = np.argmax(ai_brain.predict(xtest_scaled[1:2,:]), axis=1)
 
+
+print(x_single_prediction)
+
+
+print(le.inverse_transform(x_single_prediction))
+```
 ## Dataset Information
 
 Include screenshot of the dataset
