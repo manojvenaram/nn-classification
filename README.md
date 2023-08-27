@@ -142,8 +142,10 @@ early_stop=EarlyStopping(monitor='val_loss',patience=2)
 ```
 ai_brain.fit(x=xtrain_scaled,y=ytrain,epochs=800,batch_size=256,validation_data=(xtest_scaled,ytest),)
 ```
+```
 metrics = pd.DataFrame(ai_brain.history.history)
 metrics[['loss','val_loss']].plot()
+```
 ```
 x_test_predictions = np.argmax(ai_brain.predict(xtest_scaled), axis=1)
 x_test_predictions
