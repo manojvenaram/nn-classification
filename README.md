@@ -1,4 +1,4 @@
-![image](https://github.com/manojvenaram/nn-classification/assets/94165064/6e976b9b-13e7-4266-ace9-deb5cb24dd9a)# Developing a Neural Network Classification Model
+# Developing a Neural Network Classification Model
 
 ## AIM
 
@@ -14,7 +14,7 @@ You are required to help the manager to predict the right group of the new custo
 
 ## Neural Network Model
 
-Include the neural network model diagram.
+![](6.png)
 
 ## DESIGN STEPS
 
