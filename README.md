@@ -116,12 +116,12 @@ xtest_scaled[:,2]=scaler.transform(xtest[:,2].reshape(-1,1)).reshape(-1)
 ### Creation of model
 ```
 ai_brain=Sequential([
-    Dense(512,input_shape=(8,)),
-    Dense(512,activation='relu'),
+    Dense(16,input_shape=(8,)),
+    Dense(16,activation='relu'),
     Dense(4,activation='softmax')
 ])
 ai_brain.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
-ai_brain.fit(x=xtrain_scaled,y=ytrain,epochs=800,batch_size=256,validation_data=(xtest_scaled,ytest),)
+ai_brain.fit(x=xtrain_scaled,y=ytrain,epochs=500,batch_size=256,validation_data=(xtest_scaled,ytest),)
 ```
 ### Ploting the metrics
 ```
